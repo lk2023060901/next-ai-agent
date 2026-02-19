@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/data/github/liukai/next-ai-agent-new/node_modules/.pnpm/next%4015.5.12_%40babel%2Bcore%407.29.0_%40opentelemetry%2Bapi%401.9.0_%40playwright%2Btest%401.58.2_react-dom%4019_e5g3edd77pwoa6hnpgepczfc7e/node_modules/next/navigation.js"],"sourcesContent":["module.exports = require('./dist/client/components/navigation')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0],"debugId":null}}]
+}

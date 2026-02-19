@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+
+@theme {
+  /* Brand — navy scale */
+  --color-primary-50: #e8eef8;
+  --color-primary-100: #c5d5ef;
+  --color-primary-200: #9db8e3;
+  --color-primary-300: #749ad6;
+  --color-primary-400: #4f7fc9;
+  --color-primary-500: #173f78;
+  --color-primary-600: #133369;
+  --color-primary-700: #0f265a;
+  --color-primary-800: #0a1a42;
+  --color-primary-900: #060f2a;
+
+  /* Accent — amber */
+  --color-accent: #c77f28;
+  --color-accent-hover: #b06e1f;
+  --color-accent-subtle: #f5e8d4;
+
+  /* Teal */
+  --color-teal: #0c7b78;
+  --color-teal-hover: #096462;
+
+  /* Semantic colors */
+  --color-success: #17c964;
+  --color-success-50: #e8faf0;
+  --color-success-700: #0e7a3c;
+  --color-warning: #f5a524;
+  --color-warning-50: #fefce8;
+  --color-warning-700: #9a5c00;
+  --color-danger: #f31260;
+  --color-danger-50: #fee7ef;
+  --color-danger-700: #92003c;
+
+  /* Agent role colors */
+  --color-agent-requirements: #9353d3;
+  --color-agent-architecture: #006fee;
+  --color-agent-frontend: #17c964;
+  --color-agent-backend: #f5a524;
+  --color-agent-testing: #f31260;
+  --color-agent-devops: #71717a;
+  --color-agent-review: #0e8aaa;
+  --color-agent-coordinator: #11181c;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Fonts */
+  --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, monospace;
+
+  /* Layout */
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 64px;
+  --topbar-height: 64px;
+}
+
+/* ─── Semantic Color Variables (light / dark) ────────────────────────────── */
+
+:root {
+  /* Light — warm blue-grey */
+  --bg: #eef1f8;
+  --surface: #fdfefe;
+  --surface-2: #f0f4fb;
+  --border: #d2dceb;
+  --border-hover: #b5c6de;
+  --text-primary: #1a2230;
+  --text-secondary: #5d6878;
+  --text-tertiary: #8a9ab5;
+  --disabled: #c5d0e0;
+
+  /* Auth panel (right side of login) */
+  --auth-panel-bg: #fdfefe;
+  --auth-card-shadow: 0 12px 30px rgba(16, 32, 54, 0.1);
+}
+
+.dark {
+  /* Dark — deep navy */
+  --bg: #0f1117;
+  --surface: #161d2b;
+  --surface-2: #1e2638;
+  --border: #243452;
+  --border-hover: #2e4168;
+  --text-primary: #e4eaf5;
+  --text-secondary: #8a9ab8;
+  --text-tertiary: #526380;
+  --disabled: #2a3a54;
+
+  /* Auth panel */
+  --auth-panel-bg: #0f1117;
+  --auth-card-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: linear-gradient(160deg, #eef1f8 0%, #e6edf9 60%, #f4efe4 100%);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition:
+    background 200ms var(--ease-default),
+    color 200ms var(--ease-default);
+}
+
+.dark body,
+:root.dark body {
+  background: var(--bg);
+}

@@ -71,10 +71,12 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 里程碑 | 名称 | 周期 | 核心交付 |
 |--------|------|------|---------|
 | M1 | 基座搭建 | Week 1-4 | 设计系统、布局框架、Mock 服务、基础组件库 |
-| M2 | 认证与设置 | Week 5-8 | 注册/登录、个人设置、组织/工作区管理 |
-| M3 | 核心体验 | Week 9-14 | 对话界面、Agent 管理、仪表盘、协作可视化 |
-| M4 | 高级功能 | Week 15-18 | 知识库、渠道管理、插件市场、计费订阅 |
+| M2 | 认证与设置 | Week 5-8 | 注册/登录、个人设置、组织/工作区管理、**项目审批策略** |
+| M3 | 核心体验 | Week 9-14 | 对话界面、Agent 管理、仪表盘、协作可视化、**工具授权管理** |
+| M4 | 高级功能 | Week 15-18 | 知识库、渠道管理、插件市场、计费订阅、**远程监控与任务调度** |
 | M5 | 体验打磨 | Week 19-20 | 性能优化、无障碍、响应式、E2E 测试 |
+
+> doc 24 (本地部署与桌面操控) 新增功能已分散集成到 M2-M4 中，不新增里程碑。
 
 ---
 
@@ -124,7 +126,7 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 3.5 | 顶栏组件 | `components/layout/topbar.tsx` | Logo、全局搜索、通知铃、用户菜单 |
 | 3.6 | 面包屑导航 | `components/layout/breadcrumb.tsx` | 自动根据路由生成 |
 | 3.7 | 组织/工作区切换器 | `components/features/workspace/workspace-switcher.tsx` | 侧边栏顶部下拉 |
-| 3.8 | 全部路由占位页 | `app/(dashboard)/org/[slug]/...` | 所有路由可访问，显示"开发中" |
+| 3.8 | 全部路由占位页 | `app/(dashboard)/org/[slug]/...` | 所有路由可访问（含 projects/monitoring/scheduler），显示"开发中" |
 
 #### Week 4: Mock 服务 + API 客户端
 
@@ -192,7 +194,7 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 7.5 | 审计日志 | `org/[slug]/settings/audit/page.tsx` | 时间线列表 + 筛选 |
 | 7.6 | 邀请流程 | 邀请弹窗 + 邮件 Mock | 邮箱输入 + 角色选择 + 发送 |
 
-#### Week 8: 工作区管理
+#### Week 8: 工作区管理 + 项目审批策略
 
 | # | 任务 | 产出 | 验收标准 |
 |---|------|------|---------|
@@ -201,6 +203,10 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 8.3 | 工作区首页 | `ws/[wsSlug]/page.tsx` | 概览卡片 + 快速操作 + 最近活动 |
 | 8.4 | 工作区切换 | Sidebar Switcher 完善 | 实际数据驱动、最近访问排序 |
 | 8.5 | 工作区设置 | `ws/[wsSlug]/settings/page.tsx` | 基本信息、删除确认 |
+| 8.6 | 项目列表与创建 | `ws/[wsSlug]/projects/page.tsx` | 项目卡片（名称、审批模式标签、Agent 数）、创建弹窗 |
+| 8.7 | 项目审批策略设置 | `components/features/project/approval-policy-editor.tsx` | 模板选择（全自动/开发模式/严格模式/观察模式）、全局模式切换（auto/supervised/locked）、风险等级策略配置（low/medium/high/critical 各选 auto_approve/notify_only/require_approval/always_block） |
+| 8.8 | 工具级审批覆盖 | `components/features/project/tool-override-table.tsx` | 按分类展示全部工具、每行可选审批动作覆盖、搜索/筛选 |
+| 8.9 | 项目审批 Mock | `mocks/handlers/project.ts` | 项目 CRUD + 审批策略读写 Mock |
 
 ### 4.3 M2 交付标准
 
@@ -209,6 +215,8 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 - [ ] 组织创建、成员邀请流程完整
 - [ ] 工作区 CRUD 功能完整
 - [ ] RBAC 权限按钮显隐正确
+- [ ] 项目创建 + 审批策略配置流程完整（可选模板、调整风险等级、工具覆盖）
+- [ ] 多项目间审批策略相互独立
 
 ---
 
@@ -241,8 +249,8 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 11.2 | Mock SSE | MSW stream handler | 模拟流式返回 + 延迟 |
 | 11.3 | Agent 切换指示器 | 消息间 Agent 切换标识 | 显示"切换到 [Agent 名称]" |
 | 11.4 | 思考状态 | `components/features/chat/thinking-indicator.tsx` | 三点动画 + "正在思考..." |
-| 11.5 | 工具调用卡片 | `components/features/chat/tool-call-card.tsx` | 工具名、参数、结果、折叠展开 |
-| 11.6 | 审批卡片 | `components/features/chat/approval-card.tsx` | 允许/拒绝按钮、30 分钟倒计时 |
+| 11.5 | 工具调用卡片 | `components/features/chat/tool-call-card.tsx` | 工具名、参数、结果、折叠展开、**风险等级标签**、**本地/云端执行标识** |
+| 11.6 | 审批卡片 | `components/features/chat/approval-card.tsx` | 允许/拒绝按钮、30 分钟倒计时、**显示触发审批的策略来源**（项目策略/编排 Agent/提示词） |
 | 11.7 | 中断生成 | 停止按钮 | 点击后中断流式输出 |
 
 #### Week 12: Agent 管理
@@ -254,8 +262,10 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 12.3 | Agent 创建向导 | `components/features/agent/agent-create-wizard.tsx` | 4 步向导：角色→模型→提示词→工具 |
 | 12.4 | Agent 配置抽屉 | `components/features/agent/agent-config-drawer.tsx` | 520px 抽屉、Tab 切换配置项 |
 | 12.5 | 系统提示词编辑器 | 富文本/代码编辑器 | 变量插入、模板选择 |
-| 12.6 | 工具选择器 | 多选工具列表 | 分类、搜索、描述展示 |
+| 12.6 | 工具选择器 | 多选工具列表 | 分类、搜索、描述展示、**本地工具标识**、**风险等级标签**、**平台支持图标** |
 | 12.7 | Agent CRUD Hooks | `hooks/use-agents.ts` | React Query CRUD Mutations |
+| 12.8 | 角色-工具授权矩阵 | `components/features/agent/tool-auth-matrix.tsx` | 表格：行=Agent 角色、列=工具分类，单元格=授权状态；支持批量授权/撤销 |
+| 12.9 | 工具注册表查看 | `ws/[wsSlug]/agents/tools/page.tsx` | 全部工具列表（云端+本地），按分类分组，显示风险等级/平台支持/当前审批策略 |
 
 #### Week 13: 协作可视化
 
@@ -287,6 +297,10 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 - [ ] 协作拓扑图可交互
 - [ ] 仪表盘图表数据正确渲染（Mock 数据）
 - [ ] 用量统计页可用
+- [ ] 工具调用卡片正确显示风险等级和本地/云端标识
+- [ ] 审批卡片显示策略来源，审批行为与项目策略一致
+- [ ] 角色-工具授权矩阵可交互配置
+- [ ] 工具注册表正确展示全部工具（含 doc 24 本地工具）
 
 ---
 
@@ -326,7 +340,7 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 17.4 | 安装流程 | 安装确认 + 配置弹窗 | 权限声明、参数配置 |
 | 17.5 | 插件配置 | 配置表单 | 插件特定设置项 |
 
-#### Week 18: 计费订阅
+#### Week 18: 计费订阅 + 远程监控 + 任务调度
 
 | # | 任务 | 产出 | 验收标准 |
 |---|------|------|---------|
@@ -335,6 +349,13 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 18.3 | 账单列表 | 发票列表 + 下载 | 日期、金额、状态、PDF |
 | 18.4 | 支付方式 | 支付方式管理 | 添加/删除信用卡 |
 | 18.5 | 用量告警 | 告警设置 | 阈值配置 + 通知渠道 |
+| 18.6 | 远程监控仪表盘 | `ws/[wsSlug]/monitoring/page.tsx` | 已连接桌面端列表（状态指示灯：运行中/空闲/错误/离线）、当前 Agent 任务摘要 |
+| 18.7 | 操作日志流 | `components/features/monitoring/operation-log.tsx` | 实时操作流水表（时间、工具、参数摘要、状态图标、截图缩略图）、筛选/搜索 |
+| 18.8 | 远程控制面板 | `components/features/monitoring/remote-control.tsx` | 暂停/恢复/停止按钮、远程下发任务输入框、紧急停止确认弹窗 |
+| 18.9 | 任务调度管理 | `ws/[wsSlug]/scheduler/page.tsx` | 定时任务列表（名称、Cron 表达式、下次执行时间、启用开关）、创建/编辑弹窗（指令、Cron 配置器、工具授权选择） |
+| 18.10 | 调度执行历史 | `components/features/scheduler/execution-history.tsx` | 执行记录表（时间、状态、耗时、日志链接）、重新运行按钮 |
+| 18.11 | 审计日志增强 | 增强 `org/[slug]/settings/audit/page.tsx` | 新增列：工具名称、风险等级、审批结果（auto/approved/denied/blocked）、截图缩略图；筛选支持按风险等级/审批状态 |
+| 18.12 | 监控+调度 Mock | `mocks/handlers/monitoring.ts` + `scheduler.ts` | 桌面端状态、操作日志、定时任务 CRUD Mock |
 
 ---
 
@@ -377,9 +398,9 @@ Week  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 | 阶段 | Mock 覆盖 |
 |------|----------|
 | M1 | Auth、User、Org、Workspace 基础 CRUD |
-| M2 | 完整 Auth 流程、Settings、Members、Audit |
-| M3 | Agent CRUD、Session、Message (含流式)、Dashboard Stats |
-| M4 | Knowledge、Channel、Plugin、Billing |
+| M2 | 完整 Auth 流程、Settings、Members、Audit、**Project (含审批策略)** |
+| M3 | Agent CRUD、Session、Message (含流式)、Dashboard Stats、**Tool Registry、Tool Auth Matrix** |
+| M4 | Knowledge、Channel、Plugin、Billing、**Desktop Monitoring、Scheduler、Operation Log** |
 | M5 | 全量 Mock 稳定运行 |
 
 ### 8.2 Mock → 真实 API 切换
@@ -431,3 +452,6 @@ NEXT_PUBLIC_API_MOCK=false  // 连接真实后端
 | HeroUI 组件不满足定制需求 | 开发效率降低 | 提前评估，必要时自建组件 |
 | Mock 数据与真实接口偏差 | 联调成本高 | Mock 严格遵循 API 设计文档 Schema |
 | 设计稿与实现差异 | 返工 | 每周与设计对齐，M2 后锁定设计 |
+| 审批策略配置 UI 复杂度 | M2 Week 8 工期紧张 | 先实现模板选择 + 全局模式，工具级覆盖延后到 M3 |
+| 远程监控依赖 WebSocket 实时数据 | Mock 难度大 | 用 SSE Mock 模拟实时推送，先静态展示后加动态 |
+| 本地工具列表随桌面端开发扩展 | 工具注册表频繁变更 | 工具元数据独立配置文件，与代码解耦 |

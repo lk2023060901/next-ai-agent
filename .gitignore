@@ -1,2 +1,8 @@
 .env.example
 .trae/
+node_modules/
+.env
+.env.local
+.claude/
+.codex/
+.playwright-mcp/

@@ -1,0 +1,95 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { Search, Bell, ChevronDown, LogOut, Settings, User } from 'lucide-react'
+import { Avatar } from '@/components/ui/avatar'
+import { ThemeSwitcher } from '@/components/ui/theme-switcher'
+
+interface TopbarProps {
+  orgSlug: string
+}
+
+export function Topbar({ orgSlug }: TopbarProps) {
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+
+  return (
+    <header className="flex h-[var(--topbar-height)] items-center justify-between border-b border-[var(--border)] bg-[var(--bg)] px-4">
+      {/* Logo */}
+      <Link href={`/org/${orgSlug}/dashboard`} className="flex items-center gap-2">
+        <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary-500)] text-sm font-bold text-white">
+          N
+        </span>
+        <span className="text-sm font-semibold text-[var(--text-primary)]">NextAI Agent</span>
+      </Link>
+
+      {/* Global search */}
+      <div className="flex max-w-md flex-1 items-center gap-2 px-8">
+        <label className="flex flex-1 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 transition-colors hover:border-[var(--border-hover)] focus-within:border-[var(--color-primary-500)] focus-within:ring-1 focus-within:ring-[var(--color-primary-500)]">
+          <Search size={14} className="shrink-0 text-[var(--text-tertiary)]" />
+          <input
+            type="search"
+            placeholder="搜索... (⌘K)"
+            className="w-full bg-transparent text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-tertiary)]"
+          />
+        </label>
+      </div>
+
+      {/* Right actions */}
+      <div className="flex items-center gap-1">
+        {/* Theme switcher */}
+        <ThemeSwitcher />
+
+        {/* Notifications */}
+        <button className="relative flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:bg-[var(--surface)] hover:text-[var(--text-primary)] transition-colors">
+          <Bell size={18} />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[var(--color-danger)]" />
+        </button>
+
+        {/* User menu */}
+        <div className="relative ml-1">
+          <button
+            onClick={() => setUserMenuOpen((v) => !v)}
+            className="flex items-center gap-2 rounded-[var(--radius-md)] px-2 py-1.5 text-sm hover:bg-[var(--surface)] transition-colors"
+          >
+            <Avatar name="用户" size="sm" />
+            <ChevronDown size={14} className="text-[var(--text-tertiary)]" />
+          </button>
+          {userMenuOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
+              <div className="absolute right-0 top-full z-50 mt-1 min-w-[180px] rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg)] py-1 shadow-lg">
+                <div className="border-b border-[var(--border)] px-3 py-2">
+                  <p className="text-sm font-medium text-[var(--text-primary)]">用户名</p>
+                  <p className="text-xs text-[var(--text-tertiary)]">user@example.com</p>
+                </div>
+                <Link
+                  href="/settings/profile"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+                >
+                  <User size={14} />
+                  个人设置
+                </Link>
+                <Link
+                  href={`/org/${orgSlug}/settings`}
+                  onClick={() => setUserMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+                >
+                  <Settings size={14} />
+                  组织设置
+                </Link>
+                <div className="border-t border-[var(--border)] mt-1 pt-1">
+                  <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--color-danger)] hover:bg-[var(--surface)] transition-colors">
+                    <LogOut size={14} />
+                    退出登录
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
+  )
+}
