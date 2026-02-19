@@ -14,7 +14,8 @@ export const agentHandlers = [
   http.get('/api/agents/:id', async ({ params }) => {
     await delay(150)
     const agent = AGENTS.find((a) => a.id === params['id'])
-    if (!agent) return HttpResponse.json({ code: 'NOT_FOUND', message: 'Agent 不存在' }, { status: 404 })
+    if (!agent)
+      return HttpResponse.json({ code: 'NOT_FOUND', message: 'Agent 不存在' }, { status: 404 })
     return HttpResponse.json({ data: agent })
   }),
 
@@ -31,10 +32,21 @@ export const agentHandlers = [
   http.patch('/api/agents/:id', async ({ request, params }) => {
     await delay(200)
     const idx = AGENTS.findIndex((a) => a.id === params['id'])
-    if (idx === -1) return HttpResponse.json({ code: 'NOT_FOUND', message: 'Agent 不存在' }, { status: 404 })
+    if (idx === -1)
+      return HttpResponse.json({ code: 'NOT_FOUND', message: 'Agent 不存在' }, { status: 404 })
     const body = (await request.json()) as Record<string, unknown>
     const updated = { ...AGENTS[idx]!, ...body, updatedAt: new Date().toISOString() }
     AGENTS[idx] = updated
     return HttpResponse.json({ data: updated })
+  }),
+
+  // DELETE /api/agents/:id
+  http.delete('/api/agents/:id', async ({ params }) => {
+    await delay(200)
+    const idx = AGENTS.findIndex((a) => a.id === params['id'])
+    if (idx === -1)
+      return HttpResponse.json({ code: 'NOT_FOUND', message: 'Agent 不存在' }, { status: 404 })
+    AGENTS.splice(idx, 1)
+    return new HttpResponse(null, { status: 204 })
   }),
 ]

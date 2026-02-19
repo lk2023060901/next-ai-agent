@@ -1,4 +1,5 @@
 import type { Agent, AgentRole, AgentStatus } from '@/types/api'
+import { ROLE_AVATARS, ROLE_COLORS, ROLE_DESCRIPTIONS } from '@/lib/constants/agent'
 
 let seq = 1
 const id = () => `agent-${seq++}`
@@ -27,6 +28,13 @@ export function makeAgent(overrides: Partial<Agent> = {}): Agent {
     tools: [],
     createdAt: now(),
     updatedAt: now(),
+    avatar: ROLE_AVATARS[role],
+    description: ROLE_DESCRIPTIONS[role],
+    color: ROLE_COLORS[role],
+    knowledgeBases: [],
+    responsibilities: [],
+    triggerExamples: [],
+    identifier: role,
     ...overrides,
   }
 }
@@ -42,8 +50,15 @@ export function makeAgentTeam(workspaceId: string): Agent[] {
     'devops',
     'review',
   ]
-  const statuses: AgentStatus[] = ['running', 'idle', 'idle', 'running', 'idle', 'idle', 'idle', 'idle']
-  return roles.map((role, i) =>
-    makeAgent({ role, workspaceId, status: statuses[i] ?? 'idle' }),
-  )
+  const statuses: AgentStatus[] = [
+    'running',
+    'idle',
+    'idle',
+    'running',
+    'idle',
+    'idle',
+    'idle',
+    'idle',
+  ]
+  return roles.map((role, i) => makeAgent({ role, workspaceId, status: statuses[i] ?? 'idle' }))
 }

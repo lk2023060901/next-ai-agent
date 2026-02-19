@@ -96,6 +96,13 @@ export type AgentRole =
 
 export type AgentStatus = 'idle' | 'running' | 'paused' | 'error' | 'completed'
 
+export type AgentColor = 'blue' | 'cyan' | 'green' | 'yellow' | 'red' | 'magenta'
+
+export interface TriggerExample {
+  user: string
+  assistant: string
+}
+
 export interface Agent {
   id: string
   name: string
@@ -107,6 +114,43 @@ export interface Agent {
   tools: string[]
   createdAt: string
   updatedAt: string
+  avatar?: string
+  description?: string
+  color?: AgentColor
+  knowledgeBases?: string[]
+  temperature?: number
+  responsibilities?: string[]
+  qualityStandards?: string[]
+  outputFormat?: string
+  edgeCases?: string[]
+  triggerExamples?: TriggerExample[]
+  identifier?: string
+  constraints?: string[]
+}
+
+// ─── Tool ──────────────────────────────────────────────────────────────────
+
+export type ToolRiskLevel = 'low' | 'medium' | 'high'
+export type ToolPlatform = 'local' | 'cloud' | 'both'
+
+export interface Tool {
+  id: string
+  name: string
+  category: string
+  description: string
+  riskLevel: ToolRiskLevel
+  platform: ToolPlatform
+  requiresApproval: boolean
+}
+
+// ─── Knowledge Base ────────────────────────────────────────────────────────
+
+export interface KnowledgeBase {
+  id: string
+  name: string
+  workspaceId: string
+  documentCount: number
+  createdAt: string
 }
 
 // ─── Session / Chat ─────────────────────────────────────────────────────────
@@ -165,7 +209,13 @@ export type SseEvent =
   | { type: 'message-start'; messageId: string; agentId: string }
   | { type: 'text-delta'; messageId: string; delta: string }
   | { type: 'tool-call'; messageId: string; toolCall: ToolCall }
-  | { type: 'tool-result'; messageId: string; toolCallId: string; result: string; status: 'success' | 'error' }
+  | {
+      type: 'tool-result'
+      messageId: string
+      toolCallId: string
+      result: string
+      status: 'success' | 'error'
+    }
   | { type: 'approval-request'; messageId: string; approval: ApprovalRequest }
   | { type: 'message-end'; messageId: string }
   | { type: 'done' }
