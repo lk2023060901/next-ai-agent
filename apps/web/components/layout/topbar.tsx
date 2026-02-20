@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Search, Bell, ChevronDown, LogOut, Settings, User } from 'lucide-react'
 import { Avatar } from '@/components/ui/avatar'
 import { ThemeSwitcher } from '@/components/ui/theme-switcher'
+import { LangSwitcher } from '@/components/ui/lang-switcher'
+import { useT } from '@/lib/i18n'
 
 interface TopbarProps {
   orgSlug: string
@@ -12,6 +14,7 @@ interface TopbarProps {
 
 export function Topbar({ orgSlug }: TopbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const { topbar } = useT()
 
   return (
     <header className="flex h-[var(--topbar-height)] items-center justify-between border-b border-[var(--border)] bg-[var(--bg)] px-4">
@@ -29,7 +32,7 @@ export function Topbar({ orgSlug }: TopbarProps) {
           <Search size={14} className="shrink-0 text-[var(--text-tertiary)]" />
           <input
             type="search"
-            placeholder="搜索... (⌘K)"
+            placeholder={topbar.searchPlaceholder}
             className="w-full bg-transparent text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-tertiary)]"
           />
         </label>
@@ -37,12 +40,15 @@ export function Topbar({ orgSlug }: TopbarProps) {
 
       {/* Right actions */}
       <div className="flex items-center gap-1">
+        {/* Language switcher */}
+        <LangSwitcher />
+
         {/* Theme switcher */}
         <ThemeSwitcher />
 
         {/* Notifications */}
         <button
-          aria-label="通知"
+          aria-label={topbar.notifications}
           className="relative flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface)] hover:text-[var(--text-primary)]"
         >
           <Bell size={18} />
@@ -72,7 +78,7 @@ export function Topbar({ orgSlug }: TopbarProps) {
                   className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] transition-colors hover:bg-[var(--surface)]"
                 >
                   <User size={14} />
-                  个人设置
+                  {topbar.profile}
                 </Link>
                 <Link
                   href={`/org/${orgSlug}/settings`}
@@ -80,12 +86,12 @@ export function Topbar({ orgSlug }: TopbarProps) {
                   className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] transition-colors hover:bg-[var(--surface)]"
                 >
                   <Settings size={14} />
-                  组织设置
+                  {topbar.orgSettings}
                 </Link>
                 <div className="mt-1 border-t border-[var(--border)] pt-1">
                   <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--color-danger)] transition-colors hover:bg-[var(--surface)]">
                     <LogOut size={14} />
-                    退出登录
+                    {topbar.logout}
                   </button>
                 </div>
               </div>

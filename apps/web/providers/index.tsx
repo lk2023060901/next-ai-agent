@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import { QueryProvider } from './query-provider'
 import { MSWProvider } from './msw-provider'
+import { I18nProvider } from '@/lib/i18n'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -20,7 +21,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             disableTransitionOnChange={false}
             storageKey="nextai-theme"
           >
-            {children}
+            <I18nProvider>{children}</I18nProvider>
           </ThemeProvider>
         </HeroUIProvider>
       </QueryProvider>

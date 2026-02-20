@@ -111,6 +111,26 @@
   /* Auth panel */
   --auth-panel-bg: #0f1117;
   --auth-card-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+
+  /* Brand — shift to lighter blue for dark backgrounds */
+  --color-primary-50: #151e30;
+  --color-primary-100: #1a2840;
+  --color-primary-200: #203358;
+  --color-primary-300: #2a4370;
+  --color-primary-400: #35568e;
+  --color-primary-500: #4f7fc9;
+  --color-primary-600: #3a6bb8;
+  --color-primary-700: #2d56a0;
+  --color-primary-800: #1e3f7e;
+  --color-primary-900: #132c5c;
+
+  /* Semantic subtle backgrounds — inverted for dark */
+  --color-success-50: #0c2218;
+  --color-warning-50: #221600;
+  --color-danger-50: #220010;
+
+  /* Agent role — coordinator is near-black in light, needs lightening */
+  --color-agent-coordinator: #94a3b8;
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────── */
@@ -138,7 +158,14 @@ body {
 
 .dark body,
 :root.dark body {
-  background: var(--bg);
+  background: linear-gradient(160deg, #0f1117 0%, #111520 60%, #12111a 100%);
+}
+
+.dark {
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
 /* ─── Agent Node Pulse ──────────────────────────────────────────────────── */

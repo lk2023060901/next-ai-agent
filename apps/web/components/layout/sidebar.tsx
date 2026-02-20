@@ -20,6 +20,7 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
+import { useT } from '@/lib/i18n'
 
 interface NavItem {
   key: string
@@ -39,64 +40,73 @@ interface SidebarProps {
   wsSlug: string
 }
 
-function buildNav(orgSlug: string, wsSlug: string): NavGroup[] {
+function buildNav(
+  orgSlug: string,
+  wsSlug: string,
+  nav: ReturnType<typeof useT>['nav'],
+): NavGroup[] {
   const base = `/org/${orgSlug}/ws/${wsSlug}`
   return [
     {
       items: [
         {
           key: 'dashboard',
-          label: '概览',
+          label: nav.overview,
           icon: <LayoutDashboard size={18} />,
           href: `/org/${orgSlug}/dashboard`,
         },
       ],
     },
     {
-      label: '工作区',
+      label: nav.workspace,
       items: [
-        { key: 'chat', label: '对话', icon: <MessageSquare size={18} />, href: `${base}/chat` },
-        { key: 'agents', label: 'Agent', icon: <Bot size={18} />, href: `${base}/agents` },
+        { key: 'chat', label: nav.chat, icon: <MessageSquare size={18} />, href: `${base}/chat` },
+        { key: 'agents', label: nav.agents, icon: <Bot size={18} />, href: `${base}/agents` },
         {
           key: 'overview',
-          label: '协作概览',
+          label: nav.agentOverview,
           icon: <Network size={18} />,
           href: `${base}/agents/overview`,
         },
         {
           key: 'projects',
-          label: '项目',
+          label: nav.projects,
           icon: <FolderKanban size={18} />,
           href: `${base}/projects`,
         },
-        { key: 'channels', label: '频道', icon: <Hash size={18} />, href: `${base}/channels` },
+        {
+          key: 'channels',
+          label: nav.channels,
+          icon: <Hash size={18} />,
+          href: `${base}/channels`,
+        },
       ],
     },
     {
-      label: '资源',
+      label: nav.resources,
       items: [
         {
           key: 'knowledge',
-          label: '知识库',
+          label: nav.knowledge,
           icon: <BookOpen size={18} />,
           href: `${base}/knowledge`,
         },
-        { key: 'memory', label: '记忆', icon: <Brain size={18} />, href: `${base}/memory` },
-        { key: 'plugins', label: '插件', icon: <Puzzle size={18} />, href: `${base}/plugins` },
+        { key: 'memory', label: nav.memory, icon: <Brain size={18} />, href: `${base}/memory` },
+        { key: 'plugins', label: nav.plugins, icon: <Puzzle size={18} />, href: `${base}/plugins` },
       ],
     },
     {
-      label: '运维',
+      label: nav.operations,
       items: [
         {
           key: 'monitoring',
-          label: '监控',
+          label: nav.monitoring,
           icon: <BarChart3 size={18} />,
           href: `${base}/monitoring`,
         },
         {
           key: 'scheduler',
-          label: '调度',
+          label: nav.scheduler,
           icon: <CalendarClock size={18} />,
           href: `${base}/scheduler`,
         },
@@ -104,7 +114,12 @@ function buildNav(orgSlug: string, wsSlug: string): NavGroup[] {
     },
     {
       items: [
-        { key: 'settings', label: '设置', icon: <Settings size={18} />, href: `${base}/settings` },
+        {
+          key: 'settings',
+          label: nav.settings,
+          icon: <Settings size={18} />,
+          href: `${base}/settings`,
+        },
       ],
     },
   ]
@@ -113,7 +128,8 @@ function buildNav(orgSlug: string, wsSlug: string): NavGroup[] {
 export function Sidebar({ orgSlug, wsSlug }: SidebarProps) {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
-  const groups = buildNav(orgSlug, wsSlug)
+  const { nav } = useT()
+  const groups = buildNav(orgSlug, wsSlug, nav)
 
   function isActive(href: string) {
     return pathname === href || pathname.startsWith(href + '/')
