@@ -145,12 +145,17 @@ export interface Tool {
 
 // ─── Knowledge Base ────────────────────────────────────────────────────────
 
+export type EmbeddingModel = 'text-embedding-3-small' | 'text-embedding-3-large' | 'embed-english-v3.0'
+
 export interface KnowledgeBase {
   id: string
   name: string
+  description?: string
   workspaceId: string
   documentCount: number
+  embeddingModel: EmbeddingModel
   createdAt: string
+  updatedAt: string
 }
 
 // ─── Session / Chat ─────────────────────────────────────────────────────────
@@ -375,4 +380,41 @@ export interface UsageFilters {
   endDate: string
   workspaceId?: string
   agentId?: string
+}
+
+// ─── Knowledge Base ───────────────────────────────────────────────────────
+
+export type DocumentStatus = 'pending' | 'processing' | 'indexed' | 'failed'
+
+export interface KbDocument {
+  id: string
+  kbId: string
+  name: string
+  fileType: 'pdf' | 'docx' | 'txt' | 'md' | 'csv'
+  fileSize: number       // bytes
+  status: DocumentStatus
+  chunkCount?: number
+  uploadedAt: string
+  processedAt?: string
+  [key: string]: unknown // needed for DataTable constraint
+}
+
+export interface SearchResult {
+  id: string
+  documentId: string
+  documentName: string
+  content: string        // chunk text
+  score: number          // 0–1 relevance score
+  chunkIndex: number
+}
+
+export interface CreateKnowledgeBaseBody {
+  name: string
+  description?: string
+  embeddingModel: EmbeddingModel
+}
+
+export interface UpdateKnowledgeBaseBody {
+  name?: string
+  description?: string
 }
