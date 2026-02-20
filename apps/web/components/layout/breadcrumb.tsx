@@ -25,7 +25,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   billing: '账单',
   audit: '审计',
   workspaces: '工作区列表',
-  usage: '用量',
+  usage: '用量统计',
   profile: '个人信息',
   appearance: '外观',
   notifications: '通知',

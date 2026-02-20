@@ -284,3 +284,95 @@ export interface TopologyData {
   connections: AgentConnection[]
   tasks: AgentTask[]
 }
+
+// ─── Dashboard ───────────────────────────────────────────────────────────
+
+export interface StatMetric {
+  value: number
+  trend: number // percentage, e.g. 12 means +12%
+  sparkline: number[] // 7 data points
+}
+
+export interface DashboardStats {
+  activeAgents: StatMetric
+  todaySessions: StatMetric
+  tokenUsage: StatMetric
+  completedTasks: StatMetric
+}
+
+export interface DailyMessageStats {
+  date: string
+  inbound: number
+  outbound: number
+}
+
+export interface AgentWorkload {
+  agentId: string
+  agentName: string
+  role: AgentRole
+  taskCount: number
+}
+
+export type ActivityType = 'agent' | 'member' | 'system'
+
+export interface ActivityEvent {
+  id: string
+  type: ActivityType
+  title: string
+  description: string
+  timestamp: string
+  actorName: string
+  actorAvatar: string
+}
+
+// ─── Usage ───────────────────────────────────────────────────────────────
+
+export interface UsageOverview {
+  totalTokens: StatMetric
+  apiCalls: StatMetric
+  avgResponseTime: StatMetric
+  estimatedCost: StatMetric
+}
+
+export interface DailyTokenUsage {
+  date: string
+  inputTokens: number
+  outputTokens: number
+}
+
+export interface ProviderUsage {
+  provider: string
+  tokens: number
+  percentage: number
+  color: string
+}
+
+export interface AgentUsageRank {
+  agentId: string
+  agentName: string
+  role: AgentRole
+  tokens: number
+}
+
+export interface UsageRecord {
+  id: string
+  timestamp: string
+  agentId: string
+  agentName: string
+  agentRole: AgentRole
+  provider: string
+  model: string
+  inputTokens: number
+  outputTokens: number
+  duration: number // ms
+  cost: number // currency amount
+  success: boolean
+  [key: string]: unknown // needed for DataTable constraint
+}
+
+export interface UsageFilters {
+  startDate: string
+  endDate: string
+  workspaceId?: string
+  agentId?: string
+}

@@ -5,6 +5,7 @@ import { sessionHandlers } from './sessions'
 import { toolHandlers } from './tools'
 import { knowledgeBaseHandlers } from './knowledge-bases'
 import { topologyHandlers } from './topology'
+import { dashboardHandlers } from './dashboard'
 
 export const handlers = [
   ...authHandlers,
@@ -14,4 +15,5 @@ export const handlers = [
   ...toolHandlers,
   ...knowledgeBaseHandlers,
   ...topologyHandlers,
+  ...dashboardHandlers,
 ]
