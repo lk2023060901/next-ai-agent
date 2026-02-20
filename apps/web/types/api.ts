@@ -145,7 +145,10 @@ export interface Tool {
 
 // ─── Knowledge Base ────────────────────────────────────────────────────────
 
-export type EmbeddingModel = 'text-embedding-3-small' | 'text-embedding-3-large' | 'embed-english-v3.0'
+export type EmbeddingModel =
+  | 'text-embedding-3-small'
+  | 'text-embedding-3-large'
+  | 'embed-english-v3.0'
 
 export interface KnowledgeBase {
   id: string
@@ -391,7 +394,7 @@ export interface KbDocument {
   kbId: string
   name: string
   fileType: 'pdf' | 'docx' | 'txt' | 'md' | 'csv'
-  fileSize: number       // bytes
+  fileSize: number // bytes
   status: DocumentStatus
   chunkCount?: number
   uploadedAt: string
@@ -403,8 +406,8 @@ export interface SearchResult {
   id: string
   documentId: string
   documentName: string
-  content: string        // chunk text
-  score: number          // 0–1 relevance score
+  content: string // chunk text
+  score: number // 0–1 relevance score
   chunkIndex: number
 }
 
@@ -417,4 +420,107 @@ export interface CreateKnowledgeBaseBody {
 export interface UpdateKnowledgeBaseBody {
   name?: string
   description?: string
+}
+
+// ─── Channels ─────────────────────────────────────────────────────────────
+
+export type ChannelType =
+  | 'webchat'
+  | 'slack'
+  | 'discord'
+  | 'telegram'
+  | 'feishu'
+  | 'dingtalk'
+  | 'wecom'
+  | 'whatsapp'
+  | 'signal'
+  | 'teams'
+  | 'email'
+
+export type ChannelStatus = 'connected' | 'disconnected' | 'error' | 'pending'
+
+export interface Channel {
+  id: string
+  workspaceId: string
+  type: ChannelType
+  name: string
+  status: ChannelStatus
+  connectedChannels?: number
+  lastActiveAt?: string
+  defaultAgentId?: string
+  config: Record<string, string>
+  createdAt: string
+  updatedAt: string
+  [key: string]: unknown
+}
+
+export type MessageDirection = 'inbound' | 'outbound'
+export type ChannelMessageStatus = 'success' | 'failed'
+
+export interface ChannelMessage {
+  id: string
+  channelId: string
+  direction: MessageDirection
+  senderName: string
+  content: string
+  agentId?: string
+  agentName?: string
+  status: ChannelMessageStatus
+  errorDetail?: string
+  processingMs?: number
+  createdAt: string
+  [key: string]: unknown
+}
+
+export type RuleField = 'sender' | 'content' | 'group' | 'channel'
+export type RuleOperator = 'equals' | 'contains' | 'regex' | 'in_list'
+
+export interface RoutingRule {
+  id: string
+  channelId: string
+  priority: number
+  field: RuleField
+  operator: RuleOperator
+  value: string
+  targetAgentId: string
+  targetAgentName: string
+  enabled: boolean
+}
+
+export interface ChannelStats {
+  todayInbound: number
+  todayOutbound: number
+  avgResponseMs: number
+  activeUsers: number
+  failedMessages: number
+  hourlyTrend: Array<{ hour: number; inbound: number; outbound: number }>
+}
+
+export interface CreateChannelBody {
+  type: ChannelType
+  name: string
+  config: Record<string, string>
+  defaultAgentId?: string
+}
+
+export interface UpdateChannelBody {
+  name?: string
+  config?: Record<string, string>
+  defaultAgentId?: string
+}
+
+export interface CreateRoutingRuleBody {
+  field: RuleField
+  operator: RuleOperator
+  value: string
+  targetAgentId: string
+  priority: number
+}
+
+export interface ChannelMessageFilters {
+  direction?: MessageDirection
+  status?: ChannelMessageStatus
+  sender?: string
+  page?: number
+  pageSize?: number
 }
