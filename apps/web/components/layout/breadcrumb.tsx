@@ -11,6 +11,8 @@ const SEGMENT_LABELS: Record<string, string> = {
   dashboard: '概览',
   chat: '对话',
   agents: 'Agent',
+  overview: '协作概览',
+  tools: '工具注册表',
   projects: '项目',
   channels: '频道',
   knowledge: '知识库',
@@ -56,7 +58,7 @@ export function Breadcrumb({ className }: { className?: string }) {
     <nav aria-label="面包屑" className={cn('flex items-center gap-1 text-sm', className)}>
       <Link
         href="/"
-        className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
+        className="text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
       >
         <Home size={14} />
       </Link>
@@ -68,7 +70,7 @@ export function Breadcrumb({ className }: { className?: string }) {
           ) : (
             <Link
               href={crumb.href}
-              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
             >
               {crumb.label}
             </Link>

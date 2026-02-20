@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   Bot,
+  Network,
   FolderKanban,
   BookOpen,
   Brain,
@@ -43,7 +44,12 @@ function buildNav(orgSlug: string, wsSlug: string): NavGroup[] {
   return [
     {
       items: [
-        { key: 'dashboard', label: '概览', icon: <LayoutDashboard size={18} />, href: `/org/${orgSlug}/dashboard` },
+        {
+          key: 'dashboard',
+          label: '概览',
+          icon: <LayoutDashboard size={18} />,
+          href: `/org/${orgSlug}/dashboard`,
+        },
       ],
     },
     {
@@ -51,14 +57,30 @@ function buildNav(orgSlug: string, wsSlug: string): NavGroup[] {
       items: [
         { key: 'chat', label: '对话', icon: <MessageSquare size={18} />, href: `${base}/chat` },
         { key: 'agents', label: 'Agent', icon: <Bot size={18} />, href: `${base}/agents` },
-        { key: 'projects', label: '项目', icon: <FolderKanban size={18} />, href: `${base}/projects` },
+        {
+          key: 'overview',
+          label: '协作概览',
+          icon: <Network size={18} />,
+          href: `${base}/agents/overview`,
+        },
+        {
+          key: 'projects',
+          label: '项目',
+          icon: <FolderKanban size={18} />,
+          href: `${base}/projects`,
+        },
         { key: 'channels', label: '频道', icon: <Hash size={18} />, href: `${base}/channels` },
       ],
     },
     {
       label: '资源',
       items: [
-        { key: 'knowledge', label: '知识库', icon: <BookOpen size={18} />, href: `${base}/knowledge` },
+        {
+          key: 'knowledge',
+          label: '知识库',
+          icon: <BookOpen size={18} />,
+          href: `${base}/knowledge`,
+        },
         { key: 'memory', label: '记忆', icon: <Brain size={18} />, href: `${base}/memory` },
         { key: 'plugins', label: '插件', icon: <Puzzle size={18} />, href: `${base}/plugins` },
       ],
@@ -66,8 +88,18 @@ function buildNav(orgSlug: string, wsSlug: string): NavGroup[] {
     {
       label: '运维',
       items: [
-        { key: 'monitoring', label: '监控', icon: <BarChart3 size={18} />, href: `${base}/monitoring` },
-        { key: 'scheduler', label: '调度', icon: <CalendarClock size={18} />, href: `${base}/scheduler` },
+        {
+          key: 'monitoring',
+          label: '监控',
+          icon: <BarChart3 size={18} />,
+          href: `${base}/monitoring`,
+        },
+        {
+          key: 'scheduler',
+          label: '调度',
+          icon: <CalendarClock size={18} />,
+          href: `${base}/scheduler`,
+        },
       ],
     },
     {
@@ -142,7 +174,7 @@ export function Sidebar({ orgSlug, wsSlug }: SidebarProps) {
         onClick={() => setCollapsed((v) => !v)}
         className={cn(
           'absolute -right-3 top-20 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[var(--text-secondary)] shadow-sm',
-          'hover:bg-[var(--surface)] hover:text-[var(--text-primary)] transition-colors',
+          'transition-colors hover:bg-[var(--surface)] hover:text-[var(--text-primary)]',
         )}
       >
         {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}

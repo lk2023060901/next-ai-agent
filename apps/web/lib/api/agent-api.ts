@@ -7,6 +7,7 @@ import type {
   TriggerExample,
   Tool,
   KnowledgeBase,
+  TopologyData,
 } from '@/types/api'
 
 export interface CreateAgentBody {
@@ -58,6 +59,11 @@ export const toolApi = {
       `/workspaces/${workspaceId}/tool-auth`,
       body,
     ),
+}
+
+export const topologyApi = {
+  get: (workspaceId: string) =>
+    apiClient.get<ApiResponse<TopologyData>>(`/workspaces/${workspaceId}/topology`),
 }
 
 export const knowledgeBaseApi = {

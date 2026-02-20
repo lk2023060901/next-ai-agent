@@ -4,6 +4,7 @@ import { agentHandlers } from './agents'
 import { sessionHandlers } from './sessions'
 import { toolHandlers } from './tools'
 import { knowledgeBaseHandlers } from './knowledge-bases'
+import { topologyHandlers } from './topology'
 
 export const handlers = [
   ...authHandlers,
@@ -12,4 +13,5 @@ export const handlers = [
   ...sessionHandlers,
   ...toolHandlers,
   ...knowledgeBaseHandlers,
+  ...topologyHandlers,
 ]

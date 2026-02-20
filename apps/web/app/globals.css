@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ─── Design Tokens ──────────────────────────────────────────────────────── */
 
@@ -67,8 +67,8 @@
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
 
   /* Fonts */
-  --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    sans-serif;
+  --font-sans:
+    'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, monospace;
 
   /* Layout */
@@ -139,4 +139,20 @@ body {
 .dark body,
 :root.dark body {
   background: var(--bg);
+}
+
+/* ─── Agent Node Pulse ──────────────────────────────────────────────────── */
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 12px 4px rgba(23, 63, 120, 0.15);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
 }

@@ -1,4 +1,11 @@
-import type { AgentRole, AgentColor, AgentStatus, ToolRiskLevel, ToolPlatform } from '@/types/api'
+import type {
+  AgentRole,
+  AgentColor,
+  AgentStatus,
+  TaskStatus,
+  ToolRiskLevel,
+  ToolPlatform,
+} from '@/types/api'
 import { Monitor, Cloud, Globe, type LucideIcon } from 'lucide-react'
 
 // ─── Roles ──────────────────────────────────────────────────────────────────
@@ -126,4 +133,16 @@ export const PLATFORM_ICONS: Record<ToolPlatform, { icon: LucideIcon; label: str
   local: { icon: Monitor, label: '本地' },
   cloud: { icon: Cloud, label: '云端' },
   both: { icon: Globe, label: '混合' },
+}
+
+// ─── Task Status ───────────────────────────────────────────────────────────
+
+export const TASK_STATUS_MAP: Record<TaskStatus, { label: string; color: string }> = {
+  pending: { label: '待处理', color: 'var(--text-tertiary)' },
+  assigned: { label: '已分配', color: 'var(--color-primary-400)' },
+  in_progress: { label: '进行中', color: 'var(--color-primary-500)' },
+  review: { label: '审查中', color: 'var(--color-agent-review)' },
+  completed: { label: '已完成', color: 'var(--color-success)' },
+  failed: { label: '失败', color: 'var(--color-danger)' },
+  blocked: { label: '阻塞', color: 'var(--color-warning)' },
 }

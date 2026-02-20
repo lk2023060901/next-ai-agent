@@ -242,3 +242,45 @@ export interface Project {
   createdAt: string
   updatedAt: string
 }
+
+// ─── Task (Agent Collaboration) ──────────────────────────────────────────
+
+export type TaskStatus =
+  | 'pending'
+  | 'assigned'
+  | 'in_progress'
+  | 'review'
+  | 'completed'
+  | 'failed'
+  | 'blocked'
+
+export interface AgentTask {
+  id: string
+  title: string
+  description: string
+  status: TaskStatus
+  assignedAgentId: string
+  progress: number // 0-100
+  createdAt: string
+  startedAt?: string
+  completedAt?: string
+  duration?: number // milliseconds
+  dependencies?: string[] // task ids
+}
+
+// ─── Topology ────────────────────────────────────────────────────────────
+
+export interface AgentConnection {
+  id: string
+  sourceAgentId: string
+  targetAgentId: string
+  messageCount: number
+  label?: string
+  active: boolean
+}
+
+export interface TopologyData {
+  agents: Agent[]
+  connections: AgentConnection[]
+  tasks: AgentTask[]
+}
