@@ -27,7 +27,7 @@ export const knowledgeBaseApi = {
     apiClient.get<ApiResponse<KbDocument[]>>(`/knowledge-bases/${kbId}/documents`),
 
   uploadDocument: (kbId: string, formData: FormData) =>
-    apiClient.post<ApiResponse<KbDocument>>(`/knowledge-bases/${kbId}/documents`, formData),
+    apiClient.postForm<ApiResponse<KbDocument>>(`/knowledge-bases/${kbId}/documents`, formData),
 
   deleteDocument: (kbId: string, docId: string) =>
     apiClient.delete<ApiResponse<null>>(`/knowledge-bases/${kbId}/documents/${docId}`),
