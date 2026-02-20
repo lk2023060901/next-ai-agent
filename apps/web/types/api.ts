@@ -616,3 +616,156 @@ export interface PluginMarketplaceFilters {
   page?: number
   pageSize?: number
 }
+
+// ─── Billing ─────────────────────────────────────────────────────────────────
+
+export type PlanId = 'free' | 'pro' | 'team' | 'enterprise'
+export type BillingCycle = 'monthly' | 'yearly'
+export type InvoiceStatus = 'paid' | 'pending' | 'failed'
+export type SubscriptionStatus = 'active' | 'trial' | 'cancelled' | 'past_due'
+
+export interface PricingPlan {
+  id: PlanId
+  name: string
+  description: string
+  monthlyPrice: number
+  yearlyPrice: number
+  features: string[]
+  limits: { agents: number; tokensPerMonth: number; members: number; storageMb: number }
+  popular?: boolean
+}
+
+export interface Subscription {
+  id: string
+  orgId: string
+  planId: PlanId
+  status: SubscriptionStatus
+  cycle: BillingCycle
+  currentPeriodStart: string
+  currentPeriodEnd: string
+  cancelAtPeriodEnd: boolean
+  trialEnd?: string
+}
+
+export interface Invoice {
+  id: string
+  orgId: string
+  amount: number
+  status: InvoiceStatus
+  description: string
+  periodStart: string
+  periodEnd: string
+  paidAt?: string
+  createdAt: string
+  [key: string]: unknown
+}
+
+export interface PaymentMethod {
+  id: string
+  type: 'card' | 'alipay' | 'wechat'
+  brand?: string
+  last4?: string
+  expMonth?: number
+  expYear?: number
+  isDefault: boolean
+}
+
+export interface UsageAlert {
+  id: string
+  orgId: string
+  metric: 'tokens' | 'api_calls' | 'cost'
+  threshold: number
+  notifyEmail: boolean
+  notifyInApp: boolean
+  enabled: boolean
+}
+
+// ─── Monitoring ──────────────────────────────────────────────────────────────
+
+export type DesktopClientStatus = 'running' | 'idle' | 'error' | 'offline'
+
+export interface DesktopClient {
+  id: string
+  workspaceId: string
+  name: string
+  hostname: string
+  platform: string
+  status: DesktopClientStatus
+  currentTaskSummary?: string
+  currentAgentName?: string
+  lastSeenAt: string
+  connectedAt?: string
+  appVersion: string
+}
+
+export type OperationLogStatus = 'running' | 'success' | 'failed' | 'blocked'
+export type ApprovalResult = 'auto' | 'approved' | 'denied' | 'blocked'
+
+export interface OperationLog {
+  id: string
+  clientId: string
+  agentName: string
+  toolName: string
+  toolCategory: string
+  paramsSummary: string
+  status: OperationLogStatus
+  riskLevel: 'low' | 'medium' | 'high' | 'critical'
+  approvalResult?: ApprovalResult
+  startedAt: string
+  completedAt?: string
+  durationMs?: number
+  [key: string]: unknown
+}
+
+// ─── Scheduler ───────────────────────────────────────────────────────────────
+
+export type ScheduledTaskStatus = 'active' | 'paused' | 'error'
+export type ExecutionStatus = 'success' | 'failed' | 'running' | 'cancelled'
+
+export interface ScheduledTask {
+  id: string
+  workspaceId: string
+  name: string
+  instruction: string
+  cronExpression: string
+  cronDescription: string
+  targetAgentId?: string
+  targetAgentName?: string
+  allowedTools: string[]
+  enabled: boolean
+  status: ScheduledTaskStatus
+  lastRunAt?: string
+  nextRunAt?: string
+  runCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface TaskExecution {
+  id: string
+  taskId: string
+  taskName: string
+  status: ExecutionStatus
+  startedAt: string
+  completedAt?: string
+  durationMs?: number
+  logSummary?: string
+  [key: string]: unknown
+}
+
+export interface CreateScheduledTaskBody {
+  name: string
+  instruction: string
+  cronExpression: string
+  targetAgentId?: string
+  allowedTools: string[]
+}
+
+export interface UpdateScheduledTaskBody {
+  name?: string
+  instruction?: string
+  cronExpression?: string
+  targetAgentId?: string
+  allowedTools?: string[]
+  enabled?: boolean
+}

@@ -8,6 +8,9 @@ import { topologyHandlers } from './topology'
 import { dashboardHandlers } from './dashboard'
 import { channelHandlers } from './channels'
 import { pluginHandlers } from './plugins'
+import { billingHandlers } from './billing'
+import { monitoringHandlers } from './monitoring'
+import { schedulerHandlers } from './scheduler'
 
 export const handlers = [
   ...authHandlers,
@@ -20,4 +23,7 @@ export const handlers = [
   ...dashboardHandlers,
   ...channelHandlers,
   ...pluginHandlers,
+  ...billingHandlers,
+  ...monitoringHandlers,
+  ...schedulerHandlers,
 ]
