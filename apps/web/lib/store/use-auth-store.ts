@@ -22,9 +22,12 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: (user, tokens) => {
-        // Also persist token in localStorage for the API client
         if (typeof window !== 'undefined') {
+          // localStorage — for API client Authorization header
           localStorage.setItem('access_token', tokens.accessToken)
+          // Cookie — for middleware (server-side auth guard)
+          const maxAge = tokens.expiresIn ?? 60 * 60 * 24 * 7 // default 7 days
+          document.cookie = `access_token=${tokens.accessToken}; path=/; max-age=${maxAge}; SameSite=Lax`
         }
         set({
           user,
@@ -37,6 +40,8 @@ export const useAuthStore = create<AuthState>()(
       clearAuth: () => {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('access_token')
+          // Expire the cookie immediately
+          document.cookie = 'access_token=; path=/; max-age=0; SameSite=Lax'
         }
         set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false })
       },
