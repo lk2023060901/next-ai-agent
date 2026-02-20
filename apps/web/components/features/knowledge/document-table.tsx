@@ -14,7 +14,10 @@ interface DocumentTableProps {
   deleting?: boolean
 }
 
-const STATUS_CONFIG: Record<DocumentStatus, { label: string; icon: React.ElementType; className: string }> = {
+const STATUS_CONFIG: Record<
+  DocumentStatus,
+  { label: string; icon: React.ElementType; className: string }
+> = {
   pending: { label: '等待处理', icon: Clock, className: 'text-[var(--text-tertiary)]' },
   processing: { label: '处理中', icon: Loader2, className: 'text-[var(--color-primary-400)]' },
   indexed: { label: '已索引', icon: CheckCircle, className: 'text-[var(--color-success)]' },
@@ -76,12 +79,24 @@ export function DocumentTable({ documents, loading, onDelete, deleting }: Docume
         <table className="w-full text-sm">
           <thead className="bg-[var(--surface)]">
             <tr>
-              <th className="border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">文件名</th>
-              <th className="w-16 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">类型</th>
-              <th className="w-24 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">大小</th>
-              <th className="w-28 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">状态</th>
-              <th className="w-20 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">分块数</th>
-              <th className="w-28 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">上传时间</th>
+              <th className="border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">
+                文件名
+              </th>
+              <th className="w-16 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">
+                类型
+              </th>
+              <th className="w-24 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">
+                大小
+              </th>
+              <th className="w-28 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">
+                状态
+              </th>
+              <th className="w-20 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">
+                分块数
+              </th>
+              <th className="w-28 border-b border-[var(--border)] px-4 py-3 text-left font-semibold text-[var(--text-secondary)]">
+                上传时间
+              </th>
               <th className="w-12 border-b border-[var(--border)] px-4 py-3" />
             </tr>
           </thead>
@@ -97,25 +112,38 @@ export function DocumentTable({ documents, loading, onDelete, deleting }: Docume
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <FileText className="h-4 w-4 shrink-0 text-[var(--text-tertiary)]" />
-                      <span className="max-w-xs truncate text-[var(--text-primary)]">{doc.name}</span>
+                      <span className="max-w-xs truncate text-[var(--text-primary)]">
+                        {doc.name}
+                      </span>
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={cn('rounded px-1.5 py-0.5 text-xs font-medium uppercase', FILE_TYPE_COLORS[doc.fileType] ?? 'bg-gray-50 text-gray-600')}>
+                    <span
+                      className={cn(
+                        'rounded px-1.5 py-0.5 text-xs font-medium uppercase',
+                        FILE_TYPE_COLORS[doc.fileType] ?? 'bg-gray-50 text-gray-600',
+                      )}
+                    >
                       {doc.fileType}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-[var(--text-secondary)]">{formatFileSize(doc.fileSize)}</td>
+                  <td className="px-4 py-3 text-[var(--text-secondary)]">
+                    {formatFileSize(doc.fileSize)}
+                  </td>
                   <td className="px-4 py-3">
                     <span className={cn('flex items-center gap-1.5', statusCfg.className)}>
-                      <StatusIcon className={cn('h-3.5 w-3.5', doc.status === 'processing' && 'animate-spin')} />
+                      <StatusIcon
+                        className={cn('h-3.5 w-3.5', doc.status === 'processing' && 'animate-spin')}
+                      />
                       {statusCfg.label}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-[var(--text-secondary)]">
                     {doc.chunkCount != null ? doc.chunkCount : '—'}
                   </td>
-                  <td className="px-4 py-3 text-[var(--text-secondary)]">{formatDate(doc.uploadedAt)}</td>
+                  <td className="px-4 py-3 text-[var(--text-secondary)]">
+                    {formatDate(doc.uploadedAt)}
+                  </td>
                   <td className="px-4 py-3">
                     {onDelete && (
                       <button
@@ -140,8 +168,16 @@ export function DocumentTable({ documents, loading, onDelete, deleting }: Docume
         size="sm"
         footer={
           <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setDeletingDoc(null)}>取消</Button>
-            <Button variant="danger" onClick={handleDeleteConfirm} loading={deleting}>删除</Button>
+            <Button variant="ghost" onClick={() => setDeletingDoc(null)}>
+              取消
+            </Button>
+            <Button
+              variant="danger"
+              onClick={handleDeleteConfirm}
+              {...(deleting ? { loading: true } : {})}
+            >
+              删除
+            </Button>
           </div>
         }
       >

@@ -67,9 +67,7 @@ export function makeKnowledgeBase(overrides: Partial<KnowledgeBase> = {}): Knowl
 }
 
 export function makeKnowledgeBaseList(workspaceId: string): KnowledgeBase[] {
-  return KB_SEEDS.map((seed) =>
-    makeKnowledgeBase({ ...seed, workspaceId }),
-  )
+  return KB_SEEDS.map((seed) => makeKnowledgeBase({ ...seed, workspaceId }))
 }
 
 const DOC_NAMES = [
@@ -85,7 +83,14 @@ const DOC_NAMES = [
   '安全审计记录.txt',
 ]
 
-const DOC_STATUSES: DocumentStatus[] = ['indexed', 'indexed', 'indexed', 'processing', 'pending', 'failed']
+const DOC_STATUSES: DocumentStatus[] = [
+  'indexed',
+  'indexed',
+  'indexed',
+  'processing',
+  'pending',
+  'failed',
+]
 
 export function makeKbDocument(kbId: string, overrides: Partial<KbDocument> = {}): KbDocument {
   const name = DOC_NAMES[(docSeq - 1) % DOC_NAMES.length]!
@@ -100,9 +105,7 @@ export function makeKbDocument(kbId: string, overrides: Partial<KbDocument> = {}
     status,
     ...(status === 'indexed' ? { chunkCount: rand(10, 200) } : {}),
     uploadedAt: daysAgo(rand(1, 30)),
-    ...(status === 'indexed' || status === 'failed'
-      ? { processedAt: daysAgo(rand(0, 1)) }
-      : {}),
+    ...(status === 'indexed' || status === 'failed' ? { processedAt: daysAgo(rand(0, 1)) } : {}),
     ...overrides,
   }
 }
@@ -119,7 +122,7 @@ const CHUNK_TEMPLATES = [
   '数据库采用 PostgreSQL 作为主存储，Redis 用于缓存热点数据。所有写操作通过事务保证一致性，读操作可路由到只读副本。',
 ]
 
-export function makeSearchResults(query: string, count = 5): SearchResult[] {
+export function makeSearchResults(_query: string, count = 5): SearchResult[] {
   return Array.from({ length: count }, (_, i) => ({
     id: `sr-${i + 1}`,
     documentId: `doc-${rand(1, 8)}`,

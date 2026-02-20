@@ -74,7 +74,9 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
     if (!pending.length) return
 
     setQueue((q) =>
-      q.map((item) => (item.status === 'pending' ? { ...item, status: 'uploading' as const } : item)),
+      q.map((item) =>
+        item.status === 'pending' ? { ...item, status: 'uploading' as const } : item,
+      ),
     )
 
     for (const item of pending) {
@@ -86,7 +88,9 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
       } catch {
         setQueue((q) =>
           q.map((i) =>
-            i.file === item.file ? { ...i, status: 'error' as const, errorMsg: '上传失败，请重试' } : i,
+            i.file === item.file
+              ? { ...i, status: 'error' as const, errorMsg: '上传失败，请重试' }
+              : i,
           ),
         )
       }
@@ -100,7 +104,8 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
   const hasPending = queue.some((i) => i.status === 'pending')
 
   function StatusIcon({ status }: { status: FileItem['status'] }) {
-    if (status === 'uploading') return <Loader2 className="h-4 w-4 animate-spin text-[var(--color-primary-400)]" />
+    if (status === 'uploading')
+      return <Loader2 className="h-4 w-4 animate-spin text-[var(--color-primary-400)]" />
     if (status === 'done') return <CheckCircle className="h-4 w-4 text-[var(--color-success)]" />
     if (status === 'error') return <AlertCircle className="h-4 w-4 text-[var(--color-danger)]" />
     return <File className="h-4 w-4 text-[var(--text-tertiary)]" />
@@ -116,7 +121,10 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
             ? 'border-[var(--color-primary-400)] bg-[var(--color-primary-50)]'
             : 'border-[var(--border)] hover:border-[var(--color-primary-300)] hover:bg-[var(--surface)]',
         )}
-        onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
+        onDragOver={(e) => {
+          e.preventDefault()
+          setDragging(true)
+        }}
         onDragLeave={() => setDragging(false)}
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
@@ -126,7 +134,9 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
       >
         <Upload className="h-8 w-8 text-[var(--text-tertiary)]" />
         <div>
-          <p className="text-sm font-medium text-[var(--text-primary)]">拖拽文件至此处，或点击选择</p>
+          <p className="text-sm font-medium text-[var(--text-primary)]">
+            拖拽文件至此处，或点击选择
+          </p>
           <p className="mt-0.5 text-xs text-[var(--text-tertiary)]">
             支持 PDF、DOCX、TXT、MD、CSV，单文件最大 {MAX_FILE_SIZE_MB}MB
           </p>
@@ -155,12 +165,17 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
                 {item.errorMsg ? (
                   <p className="text-xs text-[var(--color-danger)]">{item.errorMsg}</p>
                 ) : (
-                  <p className="text-xs text-[var(--text-tertiary)]">{formatFileSize(item.file.size)}</p>
+                  <p className="text-xs text-[var(--text-tertiary)]">
+                    {formatFileSize(item.file.size)}
+                  </p>
                 )}
               </div>
               {item.status === 'pending' && (
                 <button
-                  onClick={(e) => { e.stopPropagation(); removeItem(item.file) }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    removeItem(item.file)
+                  }}
                   className="text-[var(--text-tertiary)] hover:text-[var(--color-danger)]"
                 >
                   <X className="h-4 w-4" />
@@ -170,7 +185,7 @@ export function UploadZone({ onUpload, loading }: UploadZoneProps) {
           ))}
           {hasPending && (
             <div className="flex justify-end">
-              <Button size="sm" onClick={handleUpload} loading={loading}>
+              <Button size="sm" onClick={handleUpload} {...(loading ? { loading: true } : {})}>
                 上传 {queue.filter((i) => i.status === 'pending').length} 个文件
               </Button>
             </div>
