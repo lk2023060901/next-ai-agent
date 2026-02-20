@@ -7,6 +7,7 @@ import { knowledgeBaseHandlers } from './knowledge-bases'
 import { topologyHandlers } from './topology'
 import { dashboardHandlers } from './dashboard'
 import { channelHandlers } from './channels'
+import { pluginHandlers } from './plugins'
 
 export const handlers = [
   ...authHandlers,
@@ -18,4 +19,5 @@ export const handlers = [
   ...topologyHandlers,
   ...dashboardHandlers,
   ...channelHandlers,
+  ...pluginHandlers,
 ]

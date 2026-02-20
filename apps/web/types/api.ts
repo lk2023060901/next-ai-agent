@@ -524,3 +524,95 @@ export interface ChannelMessageFilters {
   page?: number
   pageSize?: number
 }
+
+// ─── Plugins ──────────────────────────────────────────────────────────────
+
+export type PluginType =
+  | 'tool'
+  | 'channel'
+  | 'memory'
+  | 'hook'
+  | 'skill'
+  | 'agent-template'
+  | 'observability'
+
+export type PluginPricingModel = 'free' | 'one_time' | 'subscription' | 'usage_based'
+
+export type PluginStatus = 'enabled' | 'disabled' | 'error' | 'updating'
+
+export interface PluginConfigField {
+  key: string
+  label: string
+  type: 'text' | 'password' | 'number' | 'boolean' | 'select'
+  required: boolean
+  placeholder?: string
+  description?: string
+  options?: Array<{ value: string; label: string }>
+  default?: string | number | boolean
+}
+
+export interface Plugin {
+  id: string
+  name: string
+  displayName: string
+  description: string
+  longDescription?: string
+  author: string
+  authorAvatar?: string
+  icon: string
+  type: PluginType
+  version: string
+  pricingModel: PluginPricingModel
+  price?: number
+  monthlyPrice?: number
+  trialDays?: number
+  rating: number
+  reviewCount: number
+  installCount: number
+  tags: string[]
+  permissions: string[]
+  configSchema: PluginConfigField[]
+  screenshots: string[]
+  publishedAt: string
+  updatedAt: string
+  [key: string]: unknown
+}
+
+export interface InstalledPlugin {
+  id: string
+  workspaceId: string
+  pluginId: string
+  plugin: Plugin
+  status: PluginStatus
+  config: Record<string, string | number | boolean>
+  installedAt: string
+  installedBy: string
+  [key: string]: unknown
+}
+
+export interface PluginReview {
+  id: string
+  pluginId: string
+  authorName: string
+  rating: number
+  content: string
+  createdAt: string
+}
+
+export interface InstallPluginBody {
+  pluginId: string
+  config: Record<string, string | number | boolean>
+}
+
+export interface UpdatePluginConfigBody {
+  config: Record<string, string | number | boolean>
+}
+
+export interface PluginMarketplaceFilters {
+  type?: PluginType
+  pricingModel?: PluginPricingModel
+  search?: string
+  sort?: 'popular' | 'rating' | 'newest'
+  page?: number
+  pageSize?: number
+}
