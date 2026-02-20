@@ -76,10 +76,7 @@ export function Modal({
           <div className="flex items-start justify-between gap-4 border-b border-[var(--border)] p-6">
             <div>
               {title && (
-                <h2
-                  id="modal-title"
-                  className="text-lg font-semibold text-[var(--text-primary)]"
-                >
+                <h2 id="modal-title" className="text-lg font-semibold text-[var(--text-primary)]">
                   {title}
                 </h2>
               )}
@@ -88,6 +85,7 @@ export function Modal({
               )}
             </div>
             <button
+              aria-label="关闭"
               onClick={onClose}
               className="shrink-0 rounded-[var(--radius-sm)] p-1 text-[var(--text-tertiary)] hover:bg-[var(--surface)] hover:text-[var(--text-primary)]"
             >

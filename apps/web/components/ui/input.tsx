@@ -38,10 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn('flex flex-col gap-1.5', fullWidth && 'w-full')}>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="text-sm font-medium text-[var(--text-primary)]"
-          >
+          <label htmlFor={inputId} className="text-sm font-medium text-[var(--text-primary)]">
             {label}
           </label>
         )}
@@ -56,6 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             type={inputType}
             disabled={disabled}
+            {...(error ? { 'aria-invalid': true as const } : {})}
             className={cn(
               'h-10 w-full rounded-[var(--radius-md)] border bg-[var(--bg)] px-3 text-sm text-[var(--text-primary)]',
               'border-[var(--border)] placeholder:text-[var(--text-tertiary)]',
@@ -63,7 +61,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'hover:border-[var(--border-hover)]',
               'focus:border-[var(--color-primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary-500)]',
               'disabled:cursor-not-allowed disabled:bg-[var(--surface)] disabled:text-[var(--text-tertiary)]',
-              error && 'border-[var(--color-danger)] focus:border-[var(--color-danger)] focus:ring-[var(--color-danger)]',
+              error &&
+                'border-[var(--color-danger)] focus:border-[var(--color-danger)] focus:ring-[var(--color-danger)]',
               leftIcon && 'pl-9',
               (rightIcon || isPassword) && 'pr-9',
               className,

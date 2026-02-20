@@ -25,7 +25,7 @@ export function Topbar({ orgSlug }: TopbarProps) {
 
       {/* Global search */}
       <div className="flex max-w-md flex-1 items-center gap-2 px-8">
-        <label className="flex flex-1 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 transition-colors hover:border-[var(--border-hover)] focus-within:border-[var(--color-primary-500)] focus-within:ring-1 focus-within:ring-[var(--color-primary-500)]">
+        <label className="flex flex-1 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 transition-colors focus-within:border-[var(--color-primary-500)] focus-within:ring-1 focus-within:ring-[var(--color-primary-500)] hover:border-[var(--border-hover)]">
           <Search size={14} className="shrink-0 text-[var(--text-tertiary)]" />
           <input
             type="search"
@@ -41,7 +41,10 @@ export function Topbar({ orgSlug }: TopbarProps) {
         <ThemeSwitcher />
 
         {/* Notifications */}
-        <button className="relative flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:bg-[var(--surface)] hover:text-[var(--text-primary)] transition-colors">
+        <button
+          aria-label="通知"
+          className="relative flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface)] hover:text-[var(--text-primary)]"
+        >
           <Bell size={18} />
           <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[var(--color-danger)]" />
         </button>
@@ -50,7 +53,7 @@ export function Topbar({ orgSlug }: TopbarProps) {
         <div className="relative ml-1">
           <button
             onClick={() => setUserMenuOpen((v) => !v)}
-            className="flex items-center gap-2 rounded-[var(--radius-md)] px-2 py-1.5 text-sm hover:bg-[var(--surface)] transition-colors"
+            className="flex items-center gap-2 rounded-[var(--radius-md)] px-2 py-1.5 text-sm transition-colors hover:bg-[var(--surface)]"
           >
             <Avatar name="用户" size="sm" />
             <ChevronDown size={14} className="text-[var(--text-tertiary)]" />
@@ -66,7 +69,7 @@ export function Topbar({ orgSlug }: TopbarProps) {
                 <Link
                   href="/settings/profile"
                   onClick={() => setUserMenuOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] transition-colors hover:bg-[var(--surface)]"
                 >
                   <User size={14} />
                   个人设置
@@ -74,13 +77,13 @@ export function Topbar({ orgSlug }: TopbarProps) {
                 <Link
                   href={`/org/${orgSlug}/settings`}
                   onClick={() => setUserMenuOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] transition-colors hover:bg-[var(--surface)]"
                 >
                   <Settings size={14} />
                   组织设置
                 </Link>
-                <div className="border-t border-[var(--border)] mt-1 pt-1">
-                  <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--color-danger)] hover:bg-[var(--surface)] transition-colors">
+                <div className="mt-1 border-t border-[var(--border)] pt-1">
+                  <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--color-danger)] transition-colors hover:bg-[var(--surface)]">
                     <LogOut size={14} />
                     退出登录
                   </button>
